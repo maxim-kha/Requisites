@@ -1,0 +1,65 @@
+<md-tabs md-selected="selectedRegionIndex"   md-border-bottom md-autoselect md-no-disconnect="true">
+    <md-tab ng-repeat="region in regions"
+            ng-disabled="region.disabled"
+            label="{{region.name}}">
+        <div class="demo-tab tab{{$index%2}}" style="padding: 25px; text-align: center;">
+            <div ng-controller="HomeCtrl as ctrl">
+            <md-autocomplete flex
+                             md-input-name="autocompleteField"
+                             md-selected-item="ctrl.selectedItem"
+                             md-search-text="ctrl.searchText"
+                             md-items="item in ctrl.querySearch(ctrl.searchText)"
+                             md-item-text="item.name"
+                             md-search-text-change="ctrl.searchTextChange"
+                             md-selected-item-change="ctrl.selectedItemChange"
+                             md-floating-label="Ваш район">
+
+                <md-item-template>
+                    <span md-highlight-text="ctrl.searchText">{{item.name}}</span>
+                </md-item-template>
+            </md-autocomplete>
+
+            <md-content layout="column" ng-repeat="item in region.districts | filter: {name: ctrl.searchText}">
+                <div>
+                    <h2>{{item.name}}</h2>
+                </div>
+                <md-data-table-toolbar>
+                    <h2 class="md-title">Министерство по налогам и сборам:</h2>
+                </md-data-table-toolbar>
+                <div layout="row" layout-sm="column">
+                    <div flex>
+                        <md-data-table-toolbar>
+                            <h4>Для платежей в республиканский бюджет:</h4>
+                        </md-data-table-toolbar>
+                        <imns info="item.imns.countryBugget"></imns>
+                    </div>
+                    <div flex>
+                        <md-data-table-toolbar>
+                            <h4>Для платежей в местный бюджет:</h4>
+                        </md-data-table-toolbar>
+
+                        <imns info="item.imns.regionBugget"></imns>
+                    </div>
+                </div>
+                <div layout="row" layout-sm="column">
+                    <div flex>
+                        <md-data-table-toolbar>
+                            <h4 class="md-title"> Орган ФСЗН:</h4>
+                        </md-data-table-toolbar>
+                        <imns info="item.fszn"></imns>
+                    </div>
+
+                    <div flex>
+                        <md-data-table-toolbar>
+                            <h4 class="md-title">Орган Белгосстраха:</h4>
+                        </md-data-table-toolbar>
+                        <imns info="item.belgosstrax"></imns>
+                    </div>
+                </div>
+            </md-content>
+        </div>
+        <md-divider ng-if="!$last"></md-divider>
+        </div>
+        </div>
+    </md-tab>
+</md-tabs>
